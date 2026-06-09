@@ -6,7 +6,7 @@
 <title>Los Jiménez — Menú</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Italiana&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -16,6 +16,9 @@
    * T2 — Rojo    #C8181A  (header, acento, más pedido)
    * T3 — (papel blanco / crema — sin tinta)
    * Gris = negro al 35% — no es tinta extra, es tramado
+   *
+   * Lo interactivo (filtros, steppers, barra de pedido) es SOLO pantalla.
+   * En @media print todo eso se oculta y vuelve la carta de 3 tintas, tamaño carta.
    */
 
   :root {
@@ -29,14 +32,50 @@
   body {
     background: #C8C4BC;
     display: flex;
-    justify-content: center;
-    padding: 28px;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 28px 96px;   /* espacio extra abajo para la barra fija */
     font-family: 'Inter', sans-serif;
+  }
+
+  /* ══ FILTROS (solo pantalla) ══ */
+  .filtros {
+    width: 100%;
+    max-width: 816px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 4px;
+    margin-bottom: 6px;
+    background: #C8C4BC;
+  }
+  .filtro {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+    padding: 7px 16px;
+    border: 1px solid var(--T1);
+    background: transparent;
+    color: var(--T1);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background .12s, color .12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .filtro:hover { background: rgba(28,28,28,0.06); }
+  .filtro.activo {
+    background: var(--T2);
+    border-color: var(--T2);
+    color: #fff;
   }
 
   /* Carta 8.5" × 11" @ 96 dpi = 816 × 1056 px */
   .carta {
-    width: 816px;
+    width: 100%;
+    max-width: 816px;
     min-height: 1056px;
     background: var(--papel);
     display: flex;
@@ -268,6 +307,44 @@
     color: var(--T2);
   }
 
+  /* ══ STEPPER (solo pantalla) ══ */
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+  .step {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--linea);
+    background: var(--papel);
+    color: var(--T1);
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 3px;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background .1s, border-color .1s;
+  }
+  .step:hover { border-color: var(--T2); color: var(--T2); }
+  .step:active { background: rgba(200,24,26,0.08); }
+  .step.minus { color: var(--gris); }
+  .qty {
+    min-width: 20px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--gris);
+  }
+  .item.en-pedido { background: rgba(200,24,26,0.04); }
+  .item.en-pedido .qty { color: var(--T2); }
+
   /* ══ FOOTER ══ */
   .footer {
     background: var(--T1);
@@ -318,13 +395,177 @@
   }
   .leyenda span { color: var(--T2); }
 
+  /* ══ BARRA DE PEDIDO FIJA (solo pantalla) ══ */
+  .pedido-bar {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 40;
+    background: var(--T1);
+    color: #fff;
+    box-shadow: 0 -6px 24px rgba(0,0,0,0.25);
+  }
+  .pedido-resumen {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    max-width: 816px;
+    margin: 0 auto;
+    padding: 12px 20px;
+  }
+  .pedido-left { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
+  .pedido-count {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    white-space: nowrap;
+  }
+  .pedido-total {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+  .pedido-acciones { display: flex; align-items: center; gap: 8px; }
+  .btn-ver {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+    padding: 9px 16px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.4);
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-ver:hover { border-color: #fff; }
+  .btn-wa {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    padding: 9px 16px;
+    background: var(--T2);
+    border: 1px solid var(--T2);
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-wa:hover { filter: brightness(1.08); }
+  .pedido-bar.vacio .btn-ver,
+  .pedido-bar.vacio .btn-wa { opacity: 0.4; pointer-events: none; }
+
+  /* Detalle desplegable */
+  .pedido-detalle {
+    max-width: 816px;
+    margin: 0 auto;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .25s ease;
+  }
+  .pedido-bar.abierto .pedido-detalle { max-height: 50vh; overflow-y: auto; }
+  .detalle-lista { padding: 8px 20px; }
+  .detalle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 0;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .detalle-row:last-child { border-bottom: none; }
+  .detalle-nombre { color: rgba(255,255,255,0.9); flex: 1; min-width: 0; }
+  .detalle-qty { color: rgba(255,255,255,0.5); font-variant-numeric: tabular-nums; }
+  .detalle-sub { color: #fff; font-weight: 600; white-space: nowrap; min-width: 56px; text-align: right; }
+  .detalle-vacio { padding: 18px 20px; text-align: center; color: rgba(255,255,255,0.5); font-size: 13px; }
+  .detalle-footer { display: flex; justify-content: flex-end; padding: 10px 20px 14px; }
+  .btn-vaciar {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    text-decoration: underline;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-vaciar:hover { color: #fff; }
+
+  .filtro-vacio {
+    padding: 28px 48px;
+    text-align: center;
+    color: var(--gris);
+    font-style: italic;
+    font-family: 'Italiana', serif;
+    font-size: 15px;
+  }
+
+  /* ══ RESPONSIVE (móvil) ══ */
+  @media (max-width: 880px) {
+    body { padding: 14px 12px 92px; }
+    .filtros { padding: 10px 2px; gap: 6px; }
+    .filtro { font-size: 13px; padding: 6px 12px; }
+    .carta { min-height: 0; }
+    .header { padding: 22px 24px 18px; }
+    .nombre-jimenez { font-size: 54px; }
+    .nombre-los { font-size: 17px; }
+    .tagline-bar { padding: 9px 24px; flex-direction: column; align-items: flex-start; gap: 2px; }
+    .leyenda { padding: 8px 24px 0; }
+    .cuerpo { padding: 0 24px; }
+    .items-grid { grid-template-columns: 1fr !important; column-gap: 0 !important; }  /* móvil: una sola columna */
+    .item { padding: 8px 0; gap: 12px; }                         /* gap mínimo nombre↔precio */
+    .item-nombre, .item-precio { font-size: 13px; }
+    .menu-word { display: none !important; }                     /* "MENÚ" solo en desktop */
+    .footer { flex-wrap: wrap; gap: 8px 14px; padding: 14px 24px; justify-content: center; text-align: center; }
+    .footer-sep { display: none; }
+    .pedido-total { font-size: 22px; }
+    .pedido-resumen { padding: 10px 14px; gap: 10px; }
+    .btn-ver, .btn-wa { padding: 9px 12px; font-size: 13px; }
+  }
+  /* ── Header apilado en pantallas angostas: evita que "JIMÉNEZ" se corte
+     y que los badges Rappi/Uber Eats se solapen ── */
+  @media (max-width: 600px) {
+    /* logo arriba; badges Rappi/Uber Eats DEBAJO (MENÚ ya está oculto en móvil) */
+    .header { flex-direction: column !important; align-items: flex-start !important; gap: 14px; }
+    .h-right { text-align: left !important; padding-bottom: 0; }
+    .entrega-row { justify-content: flex-start !important; flex-wrap: wrap; }
+  }
+  @media (max-width: 420px) {
+    .pedido-count { display: none; }
+  }
+
+  /* ══ IMPRESIÓN — vuelve la carta de 3 tintas tamaño carta ══ */
   @media print {
     body { background: white; padding: 0; }
-    .carta { width: 100%; min-height: 100vh; box-shadow: none; }
+    .carta { width: 100%; min-height: 100vh; box-shadow: none; max-width: none; }
+    .items-grid { grid-template-columns: 1fr 1fr; column-gap: 32px; }
+    /* ocultar todo lo interactivo */
+    .filtros, .stepper, .pedido-bar, .filtro-vacio { display: none !important; }
+    .item.en-pedido { background: none; }
+    /* asegurar que todas las secciones se muestren al imprimir */
+    .seccion { display: block !important; }
   }
 </style>
 </head>
 <body>
+
+<!-- FILTROS (solo pantalla) -->
+<nav class="filtros" aria-label="Filtrar por categoría">
+  <button class="filtro activo" data-filter="todos">Todos</button>
+  <button class="filtro" data-filter="tacos">Tacos</button>
+  <button class="filtro" data-filter="hamburguesas">Hamburguesas</button>
+  <button class="filtro" data-filter="papas">Papas</button>
+  <button class="filtro" data-filter="bebidas">Bebidas</button>
+</nav>
+
 <div class="carta">
 
   <!-- HEADER -->
@@ -356,7 +597,7 @@
   <div class="cuerpo">
 
     <!-- 01 TACOS -->
-    <div class="seccion">
+    <div class="seccion" data-cat="tacos">
       <div class="sec-header">
         <span class="sec-num">01</span>
         <span class="sec-nombre">TACOS</span>
@@ -383,7 +624,7 @@
     </div>
 
     <!-- 02 HAMBURGUESAS -->
-    <div class="seccion">
+    <div class="seccion" data-cat="hamburguesas">
       <div class="sec-header">
         <span class="sec-num">02</span>
         <span class="sec-nombre">HAMBURGUESAS</span>
@@ -399,7 +640,7 @@
     </div>
 
     <!-- 03 PAPAS -->
-    <div class="seccion">
+    <div class="seccion" data-cat="papas">
       <div class="sec-header">
         <span class="sec-num">03</span>
         <span class="sec-nombre">PAPAS</span>
@@ -417,7 +658,7 @@
     </div>
 
     <!-- 04 BEBIDAS -->
-    <div class="seccion">
+    <div class="seccion" data-cat="bebidas">
       <div class="sec-header">
         <span class="sec-num">04</span>
         <span class="sec-nombre">BEBIDAS</span>
@@ -428,6 +669,9 @@
         <div class="item"><span class="item-nombre">Aguas de Sabor</span><span class="item-precio">$40</span></div>
       </div>
     </div>
+
+    <!-- mensaje cuando un filtro no tiene resultados (lo controla el JS) -->
+    <div class="filtro-vacio" hidden>No hay productos en esta categoría.</div>
 
   </div><!-- /cuerpo -->
 
@@ -444,5 +688,153 @@
   </div>
 
 </div>
+
+<!-- BARRA DE PEDIDO FIJA (solo pantalla) -->
+<div class="pedido-bar vacio" id="pedidoBar">
+  <div class="pedido-detalle" id="pedidoDetalle"></div>
+  <div class="pedido-resumen">
+    <div class="pedido-left">
+      <span class="pedido-count" id="pedidoCount">0 productos</span>
+      <span class="pedido-total" id="pedidoTotal">$0</span>
+    </div>
+    <div class="pedido-acciones">
+      <button class="btn-ver" id="btnVer" aria-expanded="false">Ver pedido ▲</button>
+      <a class="btn-wa" id="btnWa" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  // ── Número del local para enviar el pedido por WhatsApp (52 = México) ──
+  const WHATSAPP = '528112312710';
+
+  const fmt = n => '$' + n.toLocaleString('es-MX');
+
+  const cuerpo     = document.querySelector('.cuerpo');
+  const itemsEls   = [...document.querySelectorAll('.item')];
+  const bar        = document.getElementById('pedidoBar');
+  const detalleEl  = document.getElementById('pedidoDetalle');
+  const totalEl    = document.getElementById('pedidoTotal');
+  const countEl    = document.getElementById('pedidoCount');
+  const btnVer     = document.getElementById('btnVer');
+  const btnWa      = document.getElementById('btnWa');
+  const vacioMsg   = document.querySelector('.filtro-vacio');
+
+  // cart: id -> { nombre, precio, qty, el, qtyEl }
+  const cart = {};
+
+  // ── Construir steppers a partir del DOM existente ──
+  itemsEls.forEach((el, i) => {
+    const id = 'i' + i;
+    const nombre = el.querySelector('.item-nombre').textContent.replace(/\s+/g, ' ').trim();
+    const precio = parseInt(el.querySelector('.item-precio').textContent.replace(/[^0-9]/g, ''), 10) || 0;
+
+    const stepper = document.createElement('div');
+    stepper.className = 'stepper';
+    stepper.innerHTML =
+      '<button class="step minus" type="button" aria-label="Quitar uno">−</button>' +
+      '<span class="qty">0</span>' +
+      '<button class="step plus" type="button" aria-label="Agregar uno">+</button>';
+    el.appendChild(stepper);
+
+    const qtyEl = stepper.querySelector('.qty');
+    cart[id] = { nombre, precio, qty: 0, el, qtyEl };
+
+    stepper.querySelector('.plus').addEventListener('click', () => cambiar(id, +1));
+    stepper.querySelector('.minus').addEventListener('click', () => cambiar(id, -1));
+  });
+
+  function cambiar(id, delta) {
+    const it = cart[id];
+    it.qty = Math.max(0, it.qty + delta);
+    it.qtyEl.textContent = it.qty;
+    it.el.classList.toggle('en-pedido', it.qty > 0);
+    render();
+  }
+
+  function lineas() {
+    return Object.values(cart).filter(it => it.qty > 0);
+  }
+
+  function render() {
+    const ls = lineas();
+    const totalItems = ls.reduce((s, it) => s + it.qty, 0);
+    const totalPrecio = ls.reduce((s, it) => s + it.qty * it.precio, 0);
+
+    countEl.textContent = totalItems + (totalItems === 1 ? ' producto' : ' productos');
+    totalEl.textContent = fmt(totalPrecio);
+    bar.classList.toggle('vacio', totalItems === 0);
+
+    // Detalle
+    if (ls.length === 0) {
+      detalleEl.innerHTML = '<div class="detalle-vacio">Tu pedido está vacío. Suma productos con +</div>';
+      bar.classList.remove('abierto');
+      btnVer.setAttribute('aria-expanded', 'false');
+      btnVer.innerHTML = 'Ver pedido ▲';
+    } else {
+      const filas = ls.map(it =>
+        '<div class="detalle-row">' +
+          '<span class="detalle-nombre">' + escapar(it.nombre) + '</span>' +
+          '<span class="detalle-qty">×' + it.qty + '</span>' +
+          '<span class="detalle-sub">' + fmt(it.qty * it.precio) + '</span>' +
+        '</div>'
+      ).join('');
+      detalleEl.innerHTML =
+        '<div class="detalle-lista">' + filas + '</div>' +
+        '<div class="detalle-footer"><button class="btn-vaciar" type="button" id="btnVaciar">Vaciar pedido</button></div>';
+      document.getElementById('btnVaciar').addEventListener('click', vaciar);
+    }
+
+    // Link de WhatsApp
+    btnWa.href = waLink(ls, totalPrecio);
+  }
+
+  function vaciar() {
+    Object.values(cart).forEach(it => {
+      if (it.qty > 0) { it.qty = 0; it.qtyEl.textContent = '0'; it.el.classList.remove('en-pedido'); }
+    });
+    render();
+  }
+
+  function waLink(ls, total) {
+    let txt = 'Hola, quiero ordenar:\n';
+    ls.forEach(it => { txt += '• ' + it.qty + '× ' + it.nombre + ' — ' + fmt(it.qty * it.precio) + '\n'; });
+    txt += 'Total: ' + fmt(total);
+    return 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(txt);
+  }
+
+  function escapar(s) {
+    return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  }
+
+  // ── Toggle del detalle ──
+  btnVer.addEventListener('click', () => {
+    if (bar.classList.contains('vacio')) return;
+    const abierto = bar.classList.toggle('abierto');
+    btnVer.setAttribute('aria-expanded', String(abierto));
+    btnVer.innerHTML = abierto ? 'Ocultar ▼' : 'Ver pedido ▲';
+  });
+
+  // ── Filtros por categoría ──
+  const secciones = [...document.querySelectorAll('.seccion')];
+  document.querySelectorAll('.filtro').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelector('.filtro.activo')?.classList.remove('activo');
+      btn.classList.add('activo');
+      const f = btn.dataset.filter;
+      let visibles = 0;
+      secciones.forEach(s => {
+        const mostrar = (f === 'todos' || s.dataset.cat === f);
+        s.style.display = mostrar ? '' : 'none';
+        if (mostrar) visibles++;
+      });
+      vacioMsg.hidden = visibles > 0;
+    });
+  });
+
+  render();
+})();
+</script>
 </body>
 </html>

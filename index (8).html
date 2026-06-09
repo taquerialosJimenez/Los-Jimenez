@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Los Jiménez — Menú</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Italiana&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /*
+   * PALETA 3 TINTAS:
+   * T1 — Negro   #1C1C1C  (texto, footer, líneas)
+   * T2 — Rojo    #C8181A  (header, acento, más pedido)
+   * T3 — (papel blanco / crema — sin tinta)
+   * Gris = negro al 35% — no es tinta extra, es tramado
+   */
+
+  :root {
+    --T1: #1C1C1C;
+    --T2: #C8181A;
+    --papel: #FAFAF6;
+    --gris:  #6A6A6A;   /* negro tramado ~35% */
+    --linea: #D8D4CC;   /* negro tramado ~15% */
+  }
+
+  body {
+    background: #C8C4BC;
+    display: flex;
+    justify-content: center;
+    padding: 28px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Carta 8.5" × 11" @ 96 dpi = 816 × 1056 px */
+  .carta {
+    width: 816px;
+    min-height: 1056px;
+    background: var(--papel);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.2);
+  }
+
+  /* ══ HEADER ══ */
+  .header {
+    background: var(--T2);
+    padding: 28px 48px 24px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* geometría decorativa — solo líneas, sigue siendo T2 */
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -20px; right: 80px;
+    width: 1px; height: 200px;
+    background: rgba(255,255,255,0.12);
+    transform: rotate(18deg);
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    top: -20px; right: 100px;
+    width: 1px; height: 200px;
+    background: rgba(255,255,255,0.07);
+    transform: rotate(18deg);
+  }
+
+  .h-left {}
+
+  .eyebrow {
+    font-size: 8.5px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .nombre-los {
+    font-family: 'Italiana', serif;
+    font-size: 20px;
+    color: rgba(255,255,255,0.75);
+    font-style: italic;
+    display: block;
+    line-height: 1;
+  }
+
+  .nombre-jimenez {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    color: #fff;
+    line-height: 0.88;
+    letter-spacing: 2px;
+    display: block;
+  }
+
+  .h-right {
+    text-align: right;
+    padding-bottom: 4px;
+  }
+
+  .menu-word {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 8px;
+    color: rgba(255,255,255,0.4);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .entrega-row {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+  }
+
+  .badge {
+    font-size: 8.5px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 3px 10px;
+    border: 1px solid rgba(255,255,255,0.5);
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 1px;
+  }
+
+  /* ══ LÍNEA TAGLINE ══ */
+  .tagline-bar {
+    border-bottom: 1px solid var(--linea);
+    padding: 9px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--papel);
+  }
+
+  .tagline-txt {
+    font-family: 'Italiana', serif;
+    font-size: 12.5px;
+    font-style: italic;
+    color: var(--gris);
+  }
+
+  .tagline-loc {
+    font-size: 8.5px;
+    color: var(--linea);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gris);
+    opacity: 0.6;
+  }
+
+  /* ══ CUERPO ══ */
+  .cuerpo {
+    flex: 1;
+    padding: 0 48px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Sección ── */
+  .seccion {
+    padding-top: 20px;
+    padding-bottom: 4px;
+    border-top: 1px solid var(--linea);
+  }
+  .seccion:first-child {
+    border-top: none;
+    padding-top: 22px;
+  }
+
+  .sec-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .sec-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 10px;
+    color: var(--T2);
+    letter-spacing: 2px;
+    opacity: 0.65;
+    min-width: 18px;
+  }
+
+  .sec-nombre {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 19px;
+    color: var(--T1);
+    letter-spacing: 4px;
+    line-height: 1;
+  }
+
+  .sec-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--T1);
+    opacity: 0.12;
+  }
+
+  /* ── Grid 2 col ── */
+  .items-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 32px;
+  }
+
+  /* ── Item base ── */
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--linea);
+    gap: 8px;
+  }
+
+  .item-nombre {
+    font-size: 11.5px;
+    font-weight: 400;
+    color: var(--T1);
+    line-height: 1.3;
+    flex: 1;
+  }
+
+  .item-precio {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--T1);
+    white-space: nowrap;
+  }
+
+  /* ── MEGA tag ── */
+  .mega {
+    font-size: 8.5px;
+    font-weight: 700;
+    color: var(--T2);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-right: 3px;
+  }
+
+  /*
+   * ── MÁS PEDIDO ──
+   * Solo T2 (rojo): un punto + precio en rojo.
+   * Sin fondo, sin caja — sigue siendo 3 tintas.
+   */
+  .item.top .item-nombre::after {
+    content: ' ★';
+    color: var(--T2);
+    font-size: 9px;
+    opacity: 0.7;
+  }
+  .item.top .item-precio {
+    color: var(--T2);
+  }
+
+  /* ══ FOOTER ══ */
+  .footer {
+    background: var(--T1);
+    padding: 12px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 5px;
+    color: #fff;
+    opacity: 0.9;
+  }
+
+  .footer-sep {
+    width: 1px;
+    height: 16px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  .footer-info {
+    font-size: 9px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.3px;
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  .footer-tel {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    letter-spacing: 1px;
+  }
+
+  /* ── nota leyenda ── */
+  .leyenda {
+    font-size: 8.5px;
+    color: var(--gris);
+    opacity: 0.55;
+    text-align: center;
+    padding: 6px 48px 0;
+    letter-spacing: 0.5px;
+  }
+  .leyenda span { color: var(--T2); }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .carta { width: 100%; min-height: 100vh; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="carta">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="h-left">
+      <span class="eyebrow">Taquería · Monterrey</span>
+      <span class="nombre-los">Los</span>
+      <span class="nombre-jimenez">Jiménez</span>
+    </div>
+    <div class="h-right">
+      <span class="menu-word">MENÚ</span>
+      <div class="entrega-row">
+        <span class="badge">Rappi</span>
+        <span class="badge">Uber Eats</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAGLINE -->
+  <div class="tagline-bar">
+    <span class="tagline-txt">Tradición regiomontana hecha con fuego y familia</span>
+    <span class="tagline-loc">San Pedro Garza García · N.L.</span>
+  </div>
+
+  <!-- LEYENDA más pedido -->
+  <div class="leyenda"><span>★</span> Más pedido</div>
+
+  <!-- CUERPO -->
+  <div class="cuerpo">
+
+    <!-- 01 TACOS -->
+    <div class="seccion">
+      <div class="sec-header">
+        <span class="sec-num">01</span>
+        <span class="sec-nombre">TACOS</span>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="items-grid">
+        <div class="item"><span class="item-nombre">Taco Individual</span><span class="item-precio">$24</span></div>
+        <div class="item"><span class="item-nombre">Gringa Chica</span><span class="item-precio">$65</span></div>
+        <div class="item"><span class="item-nombre">Tacos de Bistec</span><span class="item-precio">$115</span></div>
+        <div class="item"><span class="item-nombre">Gringa Grande</span><span class="item-precio">$95</span></div>
+        <div class="item"><span class="item-nombre">Tacos de Trompo</span><span class="item-precio">$115</span></div>
+        <div class="item top"><span class="item-nombre"><span class="mega">Mega</span> Gringa</span><span class="item-precio">$175</span></div>
+        <div class="item"><span class="item-nombre">Pirata Chico</span><span class="item-precio">$65</span></div>
+        <div class="item"><span class="item-nombre">Campechana Chica</span><span class="item-precio">$65</span></div>
+        <div class="item"><span class="item-nombre">Pirata Grande</span><span class="item-precio">$100</span></div>
+        <div class="item"><span class="item-nombre">Campechana Grande</span><span class="item-precio">$95</span></div>
+        <div class="item top"><span class="item-nombre"><span class="mega">Mega</span> Pirata</span><span class="item-precio">$175</span></div>
+        <div class="item top"><span class="item-nombre"><span class="mega">Mega</span> Campechana</span><span class="item-precio">$175</span></div>
+        <div class="item"><span class="item-nombre">Volcanes</span><span class="item-precio">$35</span></div>
+        <div class="item"><span class="item-nombre">Quesadilla</span><span class="item-precio">$35</span></div>
+        <div class="item"><span class="item-nombre">Costra</span><span class="item-precio">$115</span></div>
+        <div class="item"><span class="item-nombre">Aguacate Extra</span><span class="item-precio">$35</span></div>
+      </div>
+    </div>
+
+    <!-- 02 HAMBURGUESAS -->
+    <div class="seccion">
+      <div class="sec-header">
+        <span class="sec-num">02</span>
+        <span class="sec-nombre">HAMBURGUESAS</span>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="items-grid">
+        <div class="item"><span class="item-nombre">Hamburguesa Especial</span><span class="item-precio">$115</span></div>
+        <div class="item top"><span class="item-nombre">Trompo Burguer</span><span class="item-precio">$120</span></div>
+        <div class="item"><span class="item-nombre">Hamburguesa Bistec</span><span class="item-precio">$125</span></div>
+        <div class="item"><span class="item-nombre">Hamburguesa Doble</span><span class="item-precio">$135</span></div>
+        <div class="item"><span class="item-nombre">Hamburguesa Mixta</span><span class="item-precio">$135</span></div>
+      </div>
+    </div>
+
+    <!-- 03 PAPAS -->
+    <div class="seccion">
+      <div class="sec-header">
+        <span class="sec-num">03</span>
+        <span class="sec-nombre">PAPAS</span>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="items-grid">
+        <div class="item"><span class="item-nombre">Papa Asada Sencilla</span><span class="item-precio">$115</span></div>
+        <div class="item"><span class="item-nombre">Orden Papas Galeana</span><span class="item-precio">$65</span></div>
+        <div class="item"><span class="item-nombre">Papa Asada con Trompo</span><span class="item-precio">$140</span></div>
+        <div class="item"><span class="item-nombre">Papas a la Francesa</span><span class="item-precio">$65</span></div>
+        <div class="item top"><span class="item-nombre">Papa Asada Mixta</span><span class="item-precio">$145</span></div>
+        <div class="item"><span class="item-nombre">Papas Francesa c/ Queso</span><span class="item-precio">$65</span></div>
+        <div class="item"><span class="item-nombre">Papa Asada con Bistec</span><span class="item-precio">$145</span></div>
+      </div>
+    </div>
+
+    <!-- 04 BEBIDAS -->
+    <div class="seccion">
+      <div class="sec-header">
+        <span class="sec-num">04</span>
+        <span class="sec-nombre">BEBIDAS</span>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="items-grid">
+        <div class="item"><span class="item-nombre">Refrescos Variedad</span><span class="item-precio">$40</span></div>
+        <div class="item"><span class="item-nombre">Aguas de Sabor</span><span class="item-precio">$40</span></div>
+      </div>
+    </div>
+
+  </div><!-- /cuerpo -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-logo">LOS JIMÉNEZ</div>
+    <div class="footer-sep"></div>
+    <div class="footer-info">
+      Av. Jiménez 515, C.P. 66237 · San Pedro Garza García, N.L.<br>
+      f /LosJimenez
+    </div>
+    <div class="footer-sep"></div>
+    <div class="footer-tel">81 1231 2710</div>
+  </div>
+
+</div>
+</body>
+</html>

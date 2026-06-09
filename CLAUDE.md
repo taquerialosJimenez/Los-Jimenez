@@ -43,3 +43,21 @@ Conventions when editing items:
 - Prices are plain text like `$175`.
 
 Content (item names, prices, address, phone, delivery badges) is Spanish and specific to this business; treat copy changes as real business data, not placeholders.
+
+## Taquería - Sistema de Órdenes (Proyecto Personal Esteban)
+
+Negocio de taquería independiente de FTS. Stack: Stripe (pagos online) + Netpay (presencial).
+
+**Flujos de orden:**
+- Mesa: QR en mesa → cliente pide y paga desde su cel
+- RT (Recoger en Taquería): cliente pide y paga anticipado desde su cel
+- Para llevar: igual que RT
+- Tablet standalone: taquero toma pedido y cobra él mismo
+
+**Integración Rappi/UberEats:**
+- NO scraping, NO API directa (restringida)
+- Flujo: empleado recibe pedido → copia texto ticket → pega en app GitHub Pages → Claude API parsea → push a Odoo vía XML-RPC
+- Formato input: texto plano copy/paste, no PDF
+- Pendiente: parser tickets (necesita ejemplos reales) + UI + Odoo
+
+**Todos los pedidos convergen en Odoo para reportería unificada.**
